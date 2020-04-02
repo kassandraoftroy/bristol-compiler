@@ -6,9 +6,9 @@ This is a reference implementation for multi party computation of boolean circui
 
 To locally demo/test the package you simply need to open two terminals.
 
-In the first terminal enter the safetraceapi/mpc directory and run `python3 local_mpc_network.py`. This spawns a 3 node MPC network.
+In the first terminal enter the root directory and run `python3 local_mpc_network.py`. This spawns a 3 node MPC network.
 
-In the second terminal enter the safetraceapi/mpc directory and run `python3 mpc_test.py`. This spawns two clients which both send a request to the MPC servers with a secret shared integer as input. The MPC servers compute whether or not the integers "intersect" (are within a range of 50) without ever revealing the two integers, and returns the results (1 for intersect and 0 otherwise).
+In the second terminal enter the root directory and run `python3 mpc_test.py`. This spawns two clients which both send a request to the MPC servers with a secret shared integer as input. The MPC servers compute whether or not the integers "intersect" (are within a range of 50) without ever revealing the two integers, and returns the results (1 for intersect and 0 otherwise).
 
 ## Package Overview
 
