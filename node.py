@@ -100,6 +100,7 @@ class Node:
 							server_socket.close()
 							return
 						if msg['uuid'] in queued_intersections:
+							print(f"receiving second client for execution id {msg['uuid']}")
 							inputs2 = deserialize_shares(msg['inputs'])
 							inputs1 = queued_intersections[msg['uuid']][0]
 							triples = queued_intersections[msg['uuid']][1]
@@ -133,12 +134,15 @@ class Node:
 							queued_intersections[msg['uuid']][2].sendall(str.encode(res+'\n'))
 							del queued_intersections[msg['uuid']]
 						else:
+							print(f"receiving first client for execution id {msg['uuid']}")
 							inputs = deserialize_shares(msg['inputs'])
+							print("running triple generation...")
 							m = Messenger(self.t, self.n, self.index, self.queues, msg['uuid']+'-triples')
 							tg = TripleGeneration(self.index, Shamir(self.t, self.n), m, batch_size=1000, n_batches=6)
 							tg.run()
+							print("waiting for second client")
 							queued_intersections[msg['uuid']] = (inputs, tg.triples, sock)
-							# client disconnected, so remove from socket list
+							continue
 					except:
 						print(f'Client disconnected')
 						sock.close()
