@@ -136,12 +136,16 @@ class Node:
 						else:
 							print(f"receiving first client for execution id {msg['uuid']}")
 							inputs = deserialize_shares(msg['inputs'])
-							print("running triple generation...")
-							m = Messenger(self.t, self.n, self.index, self.queues, msg['uuid']+'-triples')
-							tg = TripleGeneration(self.index, Shamir(self.t, self.n), m, batch_size=1000, n_batches=6)
-							tg.run()
+							with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f'triples/{self.index}'), 'r') as f:
+								data = f.read()
+							data = json.loads(data)
+							triples = deserilaize_triples(data['triples'][:6000])
+							if len(data['triples']) > 12000:
+								data['triples'] = data['triples'][6000:]
+							with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f'triples/{self.index}'), 'w') as f:
+								f.write(json.dumps(data))
 							print("waiting for second client")
-							queued_intersections[msg['uuid']] = (inputs, tg.triples, sock)
+							queued_intersections[msg['uuid']] = (inputs, triples, sock)
 							continue
 					except:
 						print(f'Client disconnected')
