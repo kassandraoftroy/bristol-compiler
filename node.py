@@ -139,11 +139,7 @@ class Node:
 							with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f'triples/{self.index}'), 'r') as f:
 								data = f.read()
 							data = json.loads(data)
-							triples = deserialize_triples(data['data'][:6000])
-							if len(data['data']) > 12000:
-								data['data'] = data['data'][6000:]
-							with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f'triples/{self.index}'), 'w') as f:
-								f.write(json.dumps(data))
+							triples = deserialize_triples(data['data'])
 							print("waiting for second client")
 							queued_intersections[msg['uuid']] = (inputs, triples, sock)
 							continue
