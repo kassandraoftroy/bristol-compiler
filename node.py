@@ -118,7 +118,7 @@ class Node:
 							bit1 = eqz.evaluate(outputs2[32:]+[0 for _ in range(32)], shamir=s, messenger=m, triples=triples[200:])
 							triples = triples[200:]
 							m.uuid = msg['uuid']+'-lt'
-							br = bin(2500)[2:]
+							br = bin(100000000)[2:]
 							while len(br) < 32:
 								br = '0'+br
 							lt = Circuit(os.path.join(self.circuit_dir, 'lessthan32.txt'), ['S' for _ in range(32)]+['V' for _ in range(32)])
